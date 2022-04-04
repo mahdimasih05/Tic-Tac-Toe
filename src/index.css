@@ -655,6 +655,43 @@ i.large {
   margin-top: 30px;
 }
 
+.hide-message {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+#message-t {
+  position: relative;
+  background-color: wheat;
+  border: 1px solid white;
+  border-radius: 5px;
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -6em;
+  animation: 0.8s form ease-in;
+}
+
+.message-i-t {
+  font-size: 100px;
+}
+.message-p-t {
+  font-size: 30px;
+  margin-top: 0;
+}
+.won {
+  color: green;
+}
+.los {
+  color: red;
+}
+.tie {
+  color: gray;
+}
+
 /*sklbvnsbjv;ksbvkjsb /v, s/v, v sdbshdhshs*/
 
 .container-logout {
