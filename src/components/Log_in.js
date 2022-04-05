@@ -55,7 +55,7 @@ class Log_in extends Component {
             <div className="col m6 offset-m3 s12">
               <p className="field-header center-align">Log-in</p>
             </div>
-            <div class="input-field col m6 offset-m3 s12">
+            <div class="input-field col m6 offset-m3 s11">
               <input
                 id="input_text"
                 type="text"
