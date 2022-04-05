@@ -60,6 +60,8 @@ class Game extends Component {
       setTimeout(() => {
         if (this.state.status == null) {
           Computer();
+        } else {
+          return;
         }
       }, 500);
     };
@@ -75,9 +77,11 @@ class Game extends Component {
         "disabled",
         "disabled",
       );
-      if (this.state.status != null) {
-        Checker();
-      }
+      setTimeout(() => {
+        if (this.state.status == null) {
+          Checker();
+        }
+      }, 100);
     };
     const Message = (value) => {
       setTimeout(() => {
@@ -146,7 +150,6 @@ class Game extends Component {
           p[3].value != null
         ) {
           Message(p[3].value);
-          clearInterval(Computer);
         }
         if (
           p[6].value == p[7].value &&
@@ -155,7 +158,6 @@ class Game extends Component {
           p[6].value != null
         ) {
           Message(p[6].value);
-          clearInterval(Computer);
         }
         if (
           p[0].value == p[3].value &&
@@ -164,7 +166,6 @@ class Game extends Component {
           p[0].value != null
         ) {
           Message(p[0].value);
-          clearInterval(Computer);
         }
         if (
           p[1].value == p[4].value &&
@@ -173,7 +174,6 @@ class Game extends Component {
           p[1].value != null
         ) {
           Message(p[1].value);
-          clearInterval(Computer);
         }
         if (
           p[2].value == p[5].value &&
@@ -182,7 +182,6 @@ class Game extends Component {
           p[2].value != null
         ) {
           Message(p[2].value);
-          clearInterval(Computer);
         }
         if (
           p[0].value == p[4].value &&
@@ -191,7 +190,6 @@ class Game extends Component {
           p[0].value != null
         ) {
           Message(p[0].value);
-          clearInterval(Computer);
         }
         if (
           p[2].value == p[4].value &&
@@ -200,7 +198,6 @@ class Game extends Component {
           p[2].value != null
         ) {
           Message(p[2].value);
-          clearInterval(Computer);
         }
       }, 100);
       setTimeout(() => {
@@ -235,14 +232,12 @@ class Game extends Component {
           </Link>
         </div>
         <div class="col offset-m9 offset-s7 chip-box-t">
-          <Link to={"/profile"} state={{ path: this.props.location.pathname }}>
-            <div className="chip">
-              <img
-                src={require("./media/" + this.props.user.avatar + ".png")}
-              ></img>
-              {this.props.user.name}
-            </div>
-          </Link>
+          <div className="chip">
+            <img
+              src={require("./media/" + this.props.user.avatar + ".png")}
+            ></img>
+            {this.props.user.name}
+          </div>
         </div>
         <div className="container-t">
           <div className="t-page" ref={this.ele11}>
