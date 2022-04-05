@@ -15,9 +15,9 @@ class Log_in extends Component {
       value: null,
       user_name: null,
       id: "#" + Math.floor(Math.random() * 900000 + 100000),
-      wins: 10,
-      ties: 5,
-      losses: 7,
+      wins: 0,
+      ties: 0,
+      losses: 0,
     };
   }
   Name = (e) => {

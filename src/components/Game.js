@@ -40,9 +40,12 @@ class Game extends Component {
       ],
       status: null,
       icon: null,
-      wins: 0,
-      lossess: 0,
-      ties: 0,
+      id: this.props.user.id,
+      avatar: this.props.user.avatar,
+      name: this.props.user.name,
+      wins: this.props.user.wins,
+      losses: this.props.user.losses,
+      ties: this.props.user.ties,
     };
   }
   render() {
@@ -54,26 +57,26 @@ class Game extends Component {
       });
       PL_ch[0].value = "Pl";
       Checker();
-      Computer();
+      setTimeout(() => {
+        if (this.state.status == null) {
+          Computer();
+        }
+      }, 500);
     };
     const Computer = () => {
-      if (this.state.status != null) {
-        return;
-      } else {
-        setTimeout(() => {
-          let Pc_ch = this.state.parts.filter((item) => {
-            return item.value !== "Pl" && item.value !== "Pc";
-          });
-          Pc_ch = Pc_ch[Math.floor(Math.random() * Pc_ch.length)];
-          Pc_ch.value = "Pc";
+      let Pc_ch = this.state.parts.filter((item) => {
+        return item.value !== "Pl" && item.value !== "Pc";
+      });
+      Pc_ch = Pc_ch[Math.floor(Math.random() * Pc_ch.length)];
+      Pc_ch.value = "Pc";
 
-          this.state.Refs[Pc_ch.id - 1].current.classList.add("circle-t");
-          this.state.Refs[Pc_ch.id - 1].current.setAttribute(
-            "disabled",
-            "disabled",
-          );
-          Checker();
-        }, 500);
+      this.state.Refs[Pc_ch.id - 1].current.classList.add("circle-t");
+      this.state.Refs[Pc_ch.id - 1].current.setAttribute(
+        "disabled",
+        "disabled",
+      );
+      if (this.state.status != null) {
+        Checker();
       }
     };
     const Message = (value) => {
@@ -83,7 +86,13 @@ class Game extends Component {
             this.state.Refs[10].current.className = "hide";
             this.state.Refs[11].current.classList.add("won");
             this.state.Refs[12].current.classList.add("won");
-            this.setState({ status: "won!", icon: "sentiment_satisfied_alt" });
+            var wins = this.props.user.wins;
+            wins += 1;
+            this.setState({
+              status: "won!",
+              icon: "sentiment_satisfied_alt",
+              wins: wins,
+            });
             this.state.Refs[9].current.classList.add("block");
             this.state.Refs[9].current.classList.remove("hide-message");
             break;
@@ -91,9 +100,12 @@ class Game extends Component {
             this.state.Refs[10].current.className = "hide";
             this.state.Refs[11].current.classList.add("los");
             this.state.Refs[12].current.classList.add("los");
+            var losses = this.props.user.losses;
+            losses += 1;
             this.setState({
               status: "lose!",
               icon: "sentiment_very_dissatisfied",
+              losses: losses,
             });
             this.state.Refs[9].current.classList.add("block");
             this.state.Refs[9].current.classList.remove("hide-message");
@@ -102,11 +114,18 @@ class Game extends Component {
             this.state.Refs[10].current.className = "hide";
             this.state.Refs[11].current.classList.add("tie");
             this.state.Refs[12].current.classList.add("tie");
-            this.setState({ status: "tie!", icon: "sentiment_neutral" });
+            var ties = this.props.user.ties;
+            ties += 1;
+            this.setState({
+              status: "tie!",
+              icon: "sentiment_neutral",
+              ties: ties,
+            });
             this.state.Refs[9].current.classList.add("block");
             this.state.Refs[9].current.classList.remove("hide-message");
             break;
         }
+        this.props.SendInfo(this.state);
       }, 400);
     };
     const Checker = () => {
@@ -119,7 +138,6 @@ class Game extends Component {
           p[0].value != null
         ) {
           Message(p[0].value);
-          clearInterval(Computer);
         }
         if (
           p[3].value == p[4].value &&
@@ -201,6 +219,9 @@ class Game extends Component {
           Message("tie");
         }
       }, 600);
+    };
+    const Close = () => {
+      this.props.navigate("/menu");
     };
     const handleClick = (e) => {
       Player(e);
@@ -303,6 +324,9 @@ class Game extends Component {
             id="message-t"
             ref={this.ele10}
           >
+            <i className="material-icons message-close-t" onClick={Close}>
+              close
+            </i>
             <i className="material-icons message-i-t" ref={this.ele13}>
               {this.state.icon}
             </i>
@@ -321,19 +345,19 @@ function mapStateToProps(state) {
   return { user: state.users };
 }
 
-// const mapDispatchToProps=(dispatch)=>{
-//   return {
-//     SendInfo: (e) => {
-//       dispatch({
-//         id: this.props.user.id,
-//         type: "ADD_USER",
-//         name: e.user_name,
-//         avatar: e.value,
-//         wins: e.wins,
-//         ties: e.ties,
-//         losses: e.losses,
-//       });
-//     },
-//   };
-// }
-export default connect(mapStateToProps)(Hooks(Game));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    SendInfo: (e) => {
+      dispatch({
+        id: e.id,
+        type: "ADD_USER",
+        name: e.name,
+        avatar: e.avatar,
+        wins: e.wins,
+        ties: e.ties,
+        losses: e.losses,
+      });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Hooks(Game));
